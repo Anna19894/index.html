@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Градиент пряжи Анны</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, 
+                #B3D9FF 0%,     
+                #7DDBD1 15%,    
+                #FFB3E0 35%,    
+                #FF99CD 50%,    
+                #FFB366 70%,    
+                #FFCC80 85%,    
+                #FFE699 100%    
+            );
+            background-size: 300% 300%;
+            animation: gradientShift 8s ease infinite;
+            font-family: 'Georgia', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            color: rgba(61, 53, 53, 0.95);
+        }
+
+        * {
+            color: rgba(61, 53, 53, 0.95) !important;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .sparkle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: radial-gradient(circle, #ffffff 0%, #e6e6e6 50%, #c0c0c0 80%, transparent 100%);
+            border-radius: 50%;
+            animation: sparkleFloat 8s infinite linear, sparkleGlow 1.5s infinite ease-in-out;
+            opacity: 0;
+            box-shadow: 0 0 6px #ffffff, 0 0 12px #e6e6e6, 0 0 18px rgba(192, 192, 192, 0.4);
+        }
+        
+        .sparkle:nth-child(1) { left: 2%; top: 5%; animation-delay: 0s, 0.1s; animation-duration: 10s, 1.2s; }
+        .sparkle:nth-child(2) { left: 5%; top: 15%; animation-delay: 0.3s, 0.4s; animation-duration: 12s, 1.8s; }
+        .sparkle:nth-child(3) { left: 8%; top: 25%; animation-delay: 0.6s, 0.7s; animation-duration: 9s, 1.4s; }
+        .sparkle:nth-child(4) { left: 11%; top: 35%; animation-delay: 0.9s, 0.2s; animation-duration: 14s, 2.1s; }
+        .sparkle:nth-child(5) { left: 14%; top: 45%; animation-delay: 1.2s, 0.8s; animation-duration: 8s, 1.6s; }
+        .sparkle:nth-child(6) { left: 17%; top: 55%; animation-delay: 1.5s, 0.3s; animation-duration: 16s, 1.9s; }
+        .sparkle:nth-child(7) { left: 20%; top: 65%; animation-delay: 1.8s, 1.1s; animation-duration: 7s, 1.3s; }
+        .sparkle:nth-child(8) { left: 23%; top: 75%; animation-delay: 2.1s, 0.6s; animation-duration: 13s, 2.2s; }
+        .sparkle:nth-child(9) { left: 26%; top: 85%; animation-delay: 2.4s, 0.9s; animation-duration: 11s, 1.7s; }
+        .sparkle:nth-child(10) { left: 29%; top: 95%; animation-delay: 2.7s, 0.1s; animation-duration: 15s, 1.5s; }
+        
+        .sparkle:nth-child(11) { left: 32%; top: 8%; animation-delay: 0.2s, 0.5s; animation-duration: 9s, 1.8s; }
+        .sparkle:nth-child(12) { left: 35%; top: 18%; animation-delay: 0.5s, 0.8s; animation-duration: 12s, 1.1s; }
+        .sparkle:nth-child(13) { left: 38%; top: 28%; animation-delay: 0.8s, 0.2s; animation-duration: 10s, 2.0s; }
+        .sparkle:nth-child(14) { left: 41%; top: 38%; animation-delay: 1.1s, 0.7s; animation-duration: 14s, 1.4s; }
+        .sparkle:nth-child(15) { left: 44%; top: 48%; animation-delay: 1.4s, 1.0s; animation-duration: 8s, 1.9s; }
+        .sparkle:nth-child(16) { left: 47%; top: 58%; animation-delay: 1.7s, 0.4s; animation-duration: 16s, 1.2s; }
+        .sparkle:nth-child(17) { left: 50%; top: 68%; animation-delay: 2.0s, 0.9s; animation-duration: 7s, 2.1s; }
+        .sparkle:nth-child(18) { left: 53%; top: 78%; animation-delay: 2.3s, 0.3s; animation-duration: 13s, 1.6s; }
+        .sparkle:nth-child(19) { left: 56%; top: 88%; animation-delay: 2.6s, 1.2s; animation-duration: 11s, 1.3s; }
+        .sparkle:nth-child(20) { left: 59%; top: 12%; animation-delay: 2.9s, 0.6s; animation-duration: 15s, 2.2s; }
+        
+        .sparkle:nth-child(21) { left: 62%; top: 22%; animation-delay: 0.1s, 0.8s; animation-duration: 9s, 1.7s; }
+        .sparkle:nth-child(22) { left: 65%; top: 32%; animation-delay: 0.4s, 0.1s; animation-duration: 12s, 1.5s; }
+        .sparkle:nth-child(23) { left: 68%; top: 42%; animation-delay: 0.7s, 0.5s; animation-duration: 10s, 1.8s; }
+        .sparkle:nth-child(24) { left: 71%; top: 52%; animation-delay: 1.0s, 0.9s; animation-duration: 14s, 1.1s; }
+        .sparkle:nth-child(25) { left: 74%; top: 62%; animation-delay: 1.3s, 0.2s; animation-duration: 8s, 2.0s; }
+        .sparkle:nth-child(26) { left: 77%; top: 72%; animation-delay: 1.6s, 0.7s; animation-duration: 16s, 1.4s; }
+        .sparkle:nth-child(27) { left: 80%; top: 82%; animation-delay: 1.9s, 1.1s; animation-duration: 7s, 1.9s; }
+        .sparkle:nth-child(28) { left: 83%; top: 92%; animation-delay: 2.2s, 0.4s; animation-duration: 13s, 1.2s; }
+        .sparkle:nth-child(29) { left: 86%; top: 6%; animation-delay: 2.5s, 0.8s; animation-duration: 11s, 2.1s; }
+        .sparkle:nth-child(30) { left: 89%; top: 16%; animation-delay: 2.8s, 0.3s; animation-duration: 15s, 1.6s; }
+        
+        .sparkle:nth-child(31) { left: 92%; top: 26%; animation-delay: 0.3s, 1.0s; animation-duration: 9s, 1.3s; }
+        .sparkle:nth-child(32) { left: 95%; top: 36%; animation-delay: 0.6s, 0.6s; animation-duration: 12s, 2.2s; }
+        .sparkle:nth-child(33) { left: 98%; top: 46%; animation-delay: 0.9s, 0.1s; animation-duration: 10s, 1.7s; }
+        .sparkle:nth-child(34) { left: 3%; top: 56%; animation-delay: 1.2s, 0.4s; animation-duration: 14s, 1.5s; }
+        .sparkle:nth-child(35) { left: 6%; top: 66%; animation-delay: 1.5s, 0.9s; animation-duration: 8s, 1.8s; }
+        .sparkle:nth-child(36) { left: 9%; top: 76%; animation-delay: 1.8s, 0.2s; animation-duration: 16s, 1.1s; }
+        .sparkle:nth-child(37) { left: 12%; top: 86%; animation-delay: 2.1s, 0.7s; animation-duration: 7s, 2.0s; }
+        .sparkle:nth-child(38) { left: 15%; top: 96%; animation-delay: 2.4s, 1.2s; animation-duration: 13s, 1.4s; }
+        .sparkle:nth-child(39) { left: 18%; top: 10%; animation-delay: 2.7s, 0.5s; animation-duration: 11s, 1.9s; }
+        .sparkle:nth-child(40) { left: 21%; top: 20%; animation-delay: 3.0s, 0.8s; animation-duration: 15s, 1.2s; }
+/* Добавьте эти стили к существующим стилям блесток */
+
+/* Дополнительные блестки - с 41 по 80 */
+.sparkle:nth-child(41) { left: 24%; top: 30%; animation-delay: 0.4s, 0.6s; animation-duration: 9s, 1.8s; }
+.sparkle:nth-child(42) { left: 27%; top: 40%; animation-delay: 0.7s, 0.9s; animation-duration: 12s, 1.1s; }
+.sparkle:nth-child(43) { left: 30%; top: 50%; animation-delay: 1.0s, 0.3s; animation-duration: 10s, 2.0s; }
+.sparkle:nth-child(44) { left: 33%; top: 60%; animation-delay: 1.3s, 0.8s; animation-duration: 14s, 1.4s; }
+.sparkle:nth-child(45) { left: 36%; top: 70%; animation-delay: 1.6s, 1.1s; animation-duration: 8s, 1.9s; }
+.sparkle:nth-child(46) { left: 39%; top: 80%; animation-delay: 1.9s, 0.5s; animation-duration: 16s, 1.2s; }
+.sparkle:nth-child(47) { left: 42%; top: 90%; animation-delay: 2.2s, 1.0s; animation-duration: 7s, 2.1s; }
+.sparkle:nth-child(48) { left: 45%; top: 5%; animation-delay: 2.5s, 0.2s; animation-duration: 13s, 1.6s; }
+.sparkle:nth-child(49) { left: 48%; top: 15%; animation-delay: 2.8s, 0.7s; animation-duration: 11s, 1.3s; }
+.sparkle:nth-child(50) { left: 51%; top: 25%; animation-delay: 3.1s, 1.2s; animation-duration: 15s, 2.2s; }
+
+.sparkle:nth-child(51) { left: 54%; top: 35%; animation-delay: 0.1s, 0.4s; animation-duration: 9s, 1.7s; }
+.sparkle:nth-child(52) { left: 57%; top: 45%; animation-delay: 0.4s, 0.9s; animation-duration: 12s, 1.5s; }
+.sparkle:nth-child(53) { left: 60%; top: 55%; animation-delay: 0.7s, 0.1s; animation-duration: 10s, 1.8s; }
+.sparkle:nth-child(54) { left: 63%; top: 65%; animation-delay: 1.0s, 0.6s; animation-duration: 14s, 1.1s; }
+.sparkle:nth-child(55) { left: 66%; top: 75%; animation-delay: 1.3s, 1.0s; animation-duration: 8s, 2.0s; }
+.sparkle:nth-child(56) { left: 69%; top: 85%; animation-delay: 1.6s, 0.3s; animation-duration: 16s, 1.4s; }
+.sparkle:nth-child(57) { left: 72%; top: 95%; animation-delay: 1.9s, 0.8s; animation-duration: 7s, 1.9s; }
+.sparkle:nth-child(58) { left: 75%; top: 10%; animation-delay: 2.2s, 1.3s; animation-duration: 13s, 1.2s; }
+.sparkle:nth-child(59) { left: 78%; top: 20%; animation-delay: 2.5s, 0.5s; animation-duration: 11s, 2.1s; }
+.sparkle:nth-child(60) { left: 81%; top: 30%; animation-delay: 2.8s, 0.9s; animation-duration: 15s, 1.6s; }
+
+.sparkle:nth-child(61) { left: 84%; top: 40%; animation-delay: 0.2s, 0.7s; animation-duration: 9s, 1.3s; }
+.sparkle:nth-child(62) { left: 87%; top: 50%; animation-delay: 0.5s, 1.1s; animation-duration: 12s, 2.2s; }
+.sparkle:nth-child(63) { left: 90%; top: 60%; animation-delay: 0.8s, 0.4s; animation-duration: 10s, 1.7s; }
+.sparkle:nth-child(64) { left: 93%; top: 70%; animation-delay: 1.1s, 0.8s; animation-duration: 14s, 1.5s; }
+.sparkle:nth-child(65) { left: 96%; top: 80%; animation-delay: 1.4s, 1.2s; animation-duration: 8s, 1.8s; }
+.sparkle:nth-child(66) { left: 1%; top: 90%; animation-delay: 1.7s, 0.6s; animation-duration: 16s, 1.1s; }
+.sparkle:nth-child(67) { left: 4%; top: 3%; animation-delay: 2.0s, 1.0s; animation-duration: 7s, 2.0s; }
+.sparkle:nth-child(68) { left: 7%; top: 13%; animation-delay: 2.3s, 0.3s; animation-duration: 13s, 1.4s; }
+.sparkle:nth-child(69) { left: 10%; top: 23%; animation-delay: 2.6s, 0.7s; animation-duration: 11s, 1.9s; }
+.sparkle:nth-child(70) { left: 13%; top: 33%; animation-delay: 2.9s, 1.1s; animation-duration: 15s, 1.2s; }
+
+.sparkle:nth-child(71) { left: 16%; top: 43%; animation-delay: 0.3s, 0.5s; animation-duration: 9s, 2.1s; }
+.sparkle:nth-child(72) { left: 19%; top: 53%; animation-delay: 0.6s, 0.9s; animation-duration: 12s, 1.6s; }
+.sparkle:nth-child(73) { left: 22%; top: 63%; animation-delay: 0.9s, 0.2s; animation-duration: 10s, 1.3s; }
+.sparkle:nth-child(74) { left: 25%; top: 73%; animation-delay: 1.2s, 0.6s; animation-duration: 14s, 2.2s; }
+.sparkle:nth-child(75) { left: 28%; top: 83%; animation-delay: 1.5s, 1.0s; animation-duration: 8s, 1.7s; }
+.sparkle:nth-child(76) { left: 31%; top: 93%; animation-delay: 1.8s, 0.4s; animation-duration: 16s, 1.5s; }
+.sparkle:nth-child(77) { left: 34%; top: 7%; animation-delay: 2.1s, 0.8s; animation-duration: 7s, 1.8s; }
+.sparkle:nth-child(78) { left: 37%; top: 17%; animation-delay: 2.4s, 1.2s; animation-duration: 13s, 1.1s; }
+.sparkle:nth-child(79) { left: 40%; top: 27%; animation-delay: 2.7s, 0.1s; animation-duration: 11s, 2.0s; }
+.sparkle:nth-child(80) { left: 43%; top: 37%; animation-delay: 3.0s, 0.5s; animation-duration: 15s, 1.4s; }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes sparkleFloat {
+            0% { 
+                transform: translateX(0px) translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateX(30px) translateY(-20px) rotate(90deg);
+            }
+            50% {
+                transform: translateX(-25px) translateY(15px) rotate(180deg);
+            }
+            75% {
+                transform: translateX(20px) translateY(-30px) rotate(270deg);
+            }
+            100% { 
+                transform: translateX(0px) translateY(0px) rotate(360deg);
+            }
+        }
+        
+        @keyframes sparkleGlow {
+            0% { 
+                opacity: 0.1; 
+                transform: scale(0.5);
+                box-shadow: 0 0 2px #ffffff, 0 0 4px #e6e6e6, 0 0 6px rgba(192, 192, 192, 0.2);
+            }
+            25% { 
+                opacity: 0.8; 
+                transform: scale(1.4);
+                box-shadow: 0 0 10px #ffffff, 0 0 20px #e6e6e6, 0 0 30px rgba(192, 192, 192, 0.5);
+            }
+            50% { 
+                opacity: 0.3; 
+                transform: scale(0.8);
+                box-shadow: 0 0 4px #ffffff, 0 0 8px #e6e6e6, 0 0 12px rgba(192, 192, 192, 0.3);
+            }
+            75% { 
+                opacity: 1; 
+                transform: scale(1.6);
+                box-shadow: 0 0 15px #ffffff, 0 0 30px #e6e6e6, 0 0 45px rgba(192, 192, 192, 0.6);
+            }
+            100% { 
+                opacity: 0.2; 
+                transform: scale(0.6);
+                box-shadow: 0 0 3px #ffffff, 0 0 6px #e6e6e6, 0 0 9px rgba(192, 192, 192, 0.25);
+            }
+        }
+        
+        .yarn-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 35px 25px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.15),
+                0 10px 20px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            text-align: center;
+            max-width: 800px;
+            width: 85%;
+            position: relative;
+            z-index: 1;
+            margin: 20px auto;
+            min-height: 500px;
+        }
+        
+        .brand-title {
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 5px;
+            font-size: 1.8em;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-weight: 400;
+            letter-spacing: 1.5px;
+        }
+        
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+            font-size: 24px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            font-weight: 300;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+        
+         .gradient-yarn {
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to right, 
+                #ffffff 0%, 
+                #f0f8ff 10%,
+                #87CEEB 20%,
+                #40e0d0 35%, 
+                #20b2aa 40%,
+                #FF69B4 55%,
+                #ff1493 65%, 
+                #c71585 70%,
+                #ff8c00 85%, 
+                #ffa500 95%,
+                #FFD700 100%);
+            border-radius: 30px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 
+                0 8px 20px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+        
+        .gradient-yarn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 25px;
+            background-image: 
+                radial-gradient(circle at 8% 30%, rgba(255,215,0,0.8) 1px, transparent 1.5px),
+                radial-gradient(circle at 15% 70%, rgba(192,192,192,0.9) 0.8px, transparent 1.2px),
+                radial-gradient(circle at 25% 20%, rgba(255,255,255,0.7) 0.7px, transparent 1px),
+                radial-gradient(circle at 35% 80%, rgba(255,215,0,0.6) 0.9px, transparent 1.3px),
+                radial-gradient(circle at 45% 40%, rgba(192,192,192,0.8) 0.8px, transparent 1.1px),
+                radial-gradient(circle at 55% 90%, rgba(255,255,255,0.9) 1px, transparent 1.4px),
+                radial-gradient(circle at 65% 25%, rgba(255,215,0,0.7) 0.8px, transparent 1.2px),
+                radial-gradient(circle at 75% 60%, rgba(192,192,192,0.6) 0.7px, transparent 1px),
+                radial-gradient(circle at 85% 15%, rgba(255,255,255,0.8) 0.9px, transparent 1.3px),
+                radial-gradient(circle at 92% 75%, rgba(255,215,0,0.9) 0.8px, transparent 1.1px);
+            background-size: 20px 20px;
+        }
+        
+        .yarn-container p {
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        
+        .yarn-container em {
+            color: rgba(255, 255, 255, 0.85);
+        }
+        
+        .color-breakdown {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .color-sample {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 3px;
+        }
+        
+        .color-circle {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin-bottom: 5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .white { 
+            background: linear-gradient(45deg, #ffffff, #f0f8ff);
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+        .turquoise { 
+            background: linear-gradient(45deg, #40e0d0, #87CEEB);
+        }
+        .fuchsia { 
+            background: linear-gradient(45deg, #ff1493, #FF69B4);
+        }
+        .orange { 
+            background: linear-gradient(45deg, #ff8c00, #ffa500, #FFD700);
+        }
+        .silver { 
+            background: linear-gradient(45deg, #c0c0c0, #e6e6e6, #b8b8b8, #d4d4d4);
+            border: 1px solid #a0a0a0;
+        }
+        
+        .color-name {
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: bold;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+        
+        .description {
+            margin-top: 25px;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .description p {
+            margin: 12px 0;
+        }
+
+        /* Для больших мониторов */
+        @media (min-width: 1200px) {
+            .yarn-container {
+                max-width: 800px;
+            }
+        }
+
+        /* Для очень больших мониторов */
+        @media (min-width: 1600px) {
+            .yarn-container {
+                max-width: 800px;
+            }
+        }
+        
+        .icon {
+            font-size: 1em;
+            margin: 0 6px;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        }
+        
+        .modal-button {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 10px 25px;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            margin-top: 15px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .modal-button:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, 
+                rgba(179, 217, 255, 0.95) 0%,
+                rgba(125, 219, 209, 0.95) 20%,
+                rgba(255, 179, 224, 0.95) 50%,
+                rgba(255, 153, 205, 0.95) 70%,
+                rgba(255, 179, 102, 0.95) 100%
+            );
+            backdrop-filter: blur(20px);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 30px;
+            width: 80%;
+            max-width: 900px;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.4s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .close {
+            color: rgba(255, 255, 255, 0.8);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .close:hover {
+            color: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+        }
+        
+        .modal-title {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            font-weight: 400;
+        }
+        
+        .modal-section {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .modal-section strong {
+            color: rgb(61 54 54 / 95%);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        
+        .modal-section p {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            margin: 0;
+            padding-left: 10px;
+            font-size: 16px;
+        }
+
+        /* Адаптивность для планшетов */
+        @media (max-width: 768px) {
+            .yarn-container {
+                padding: 20px;
+                margin: 15px auto;
+                border-radius: 20px;
+                max-width: 95%;
+            }
+            
+            .brand-title {
+                font-size: 1.5em;
+            }
+            
+            .subtitle {
+                font-size: 20px;
+            }
+            
+            .copyright {
+                font-size: 14px;
+            }
+            
+            .yarn-container p {
+                font-size: 14px;
+            }
+            
+            .description {
+                font-size: 14px;
+            }
+            
+            .color-circle {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .modal-content {
+                width: 90%;
+                padding: 20px;
+            }
+            
+            .modal-title {
+                font-size: 24px;
+            }
+            
+            .modal-section strong {
+                font-size: 16px;
+            }
+            
+            .modal-section p {
+                font-size: 14px;
+            }
+        }
+
+        /* Адаптивность для мобильных */
+        @media (max-width: 480px) {
+            .yarn-container {
+                padding: 15px;
+                margin: 10px auto;
+                border-radius: 15px;
+                max-width: 98%;
+            }
+            
+            .brand-title {
+                font-size: 1.3em;
+            }
+            
+            .subtitle {
+                font-size: 18px;
+            }
+            
+            .copyright {
+                font-size: 12px;
+            }
+            
+            .yarn-container p {
+                font-size: 12px;
+            }
+            
+            .description {
+                font-size: 12px;
+            }
+            
+            .gradient-yarn {
+                height: 40px;
+                border-radius: 20px;
+            }
+            
+            .color-circle {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .color-name {
+                font-size: 0.7em;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+                margin: 10% auto;
+            }
+            
+            .modal-title {
+                font-size: 20px;
+            }
+            
+            .modal-section strong {
+                font-size: 14px;
+            }
+            
+            .modal-section p {
+                font-size: 12px;
+            }
+        }
+
+        /* Для больших мониторов */
+        @media (min-width: 1200px) {
+            .yarn-container {
+                max-width: 1000px;
+            }
+        }
+
+        /* Для очень больших мониторов */
+        @media (min-width: 1600px) {
+            .yarn-container {
+                max-width: 1200px;
+            }
+        }
+/* Дополнительные стили для расширенного модального окна */
+        .modal-content {
+            background: linear-gradient(135deg, 
+                rgba(179, 217, 255, 0.95) 0%,
+                rgba(125, 219, 209, 0.95) 20%,
+                rgba(255, 179, 224, 0.95) 50%,
+                rgba(255, 153, 205, 0.95) 70%,
+                rgba(255, 179, 102, 0.95) 100%
+            );
+            backdrop-filter: blur(20px);
+            margin: 2% auto;
+            padding: 30px;
+            border-radius: 30px;
+            width: 85%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.4s ease-out;
+        }
+        
+        .modal-section {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal-section strong {
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .modal-section p {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            margin: 8px 0;
+            padding-left: 0;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        /* Скролл для модального окна */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .modal-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .modal-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+        
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Мобильная адаптация для модального окна */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+                margin: 5% auto;
+            }
+            
+            .modal-section {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+            
+            .modal-section strong {
+                font-size: 16px;
+            }
+            
+            .modal-section p {
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .modal-content {
+                width: 98%;
+                padding: 15px;
+            }
+            
+            .modal-section strong {
+                font-size: 14px;
+            }
+            
+            .modal-section p {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+<div class="sparkle"></div>
+    
+    <div class="yarn-container">
+        <div class="brand-title">⟡ ПРЯЖА "АННА" ⟡</div>
+        <div class="subtitle">Радужные грёзы</div>
+        <div class="copyright">© Вязать здорово ◆ Магия узора | 2025</div>
+        
+        <div class="gradient-yarn"></div>
+        
+        <p><strong>Мериносовая шерсть + хлопок + альпака + серебряная металлизированная нить</strong></p>
+        <p><em>Ручное крашение, градиентный переход с оранжевыми и серебряными вкраплениями</em></p>
+        
+        <div class="color-breakdown">
+            <div class="color-sample">
+                <div class="color-circle white"></div>
+                <div class="color-name">Белый</div>
+            </div>
+            <div class="color-sample">
+                <div class="color-circle turquoise"></div>
+                <div class="color-name">Бирюзовый</div>
+            </div>
+            <div class="color-sample">
+                <div class="color-circle fuchsia"></div>
+                <div class="color-name">Фуксия</div>
+            </div>
+            <div class="color-sample">
+                <div class="color-circle orange"></div>
+                <div class="color-name">Оранжевый</div>
+            </div>
+            <div class="color-sample">
+                <div class="color-circle silver"></div>
+                <div class="color-name">Серебро</div>
+            </div>
+        </div>
+        
+        <div class="description">
+            <p><span class="icon">◇</span> <strong>Характер пряжи:</strong> Мягкая, ласковая, натуральная</p>
+            <p><span class="icon">◈</span> <strong>Особенности:</strong> Многогранная, как сама Анна - переливы от нежного белого через морскую бирюзу к яркой фуксии и солнечному оранжевому</p>
+            <p><span class="icon">◆</span> <strong>Тактильные ощущения:</strong> Приятная в работе, создает уютную атмосферу</p>
+            <p><span class="icon">◉</span> <strong>Результат:</strong> Создает теплые, честные, открытые изделия полные любви</p>
+            
+            <button class="modal-button" onclick="openModal()">
+                <span class="icon">◎</span> Альтернативы из реальной пряжи
+            </button>
+        </div>
+    </div>
+    
+    <!-- Модальное окно с расширенной информацией -->
+<div id="yarnModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 class="modal-title"><span class="icon">◎</span> Альтернативы из реальной пряжи</h2>
+        
+        <div class="modal-section">
+            <strong>🌟 ПРЕМИУМ КЛАСС:</strong>
+            <p>• Noro Kureyon (Япония) - натуральная шерсть с уникальными переходами цветов</p>
+            <p>• Malabrigo Mechita (Уругвай) - мериносовая шерсть ручного крашения</p>
+            <p>• Kauni Wool (Эстония) - градиентная шерсть с длинными цветовыми переходами</p>
+            <p>• Scheepjes Whirl (Нидерланды) - хлопок/акрил с плавными переходами</p>
+        </div>
+        
+        <div class="modal-section">
+            <strong>🧶 ТУРЕЦКИЕ МАРКИ:</strong>
+            <p>• Alize Angora Gold (40% мохер, 60% акрил) - в цветах: белый №55, бирюзовый №245, фуксия №149, оранжевый №83</p>
+            <p>• Alize Sal Abiye с люрексом - для серебристых вкраплений</p>
+            <p>• YarnArt Flowers (хлопок/акрил) - меланжевые цвета с переходами</p>
+            <p>• NAKO Arya Ebruli - специальная градиентная линейка</p>
+            <p>• Kartopu Elite Wool - мериносовая шерсь, яркие цвета</p>
+        </div>
+        
+        <div class="modal-section">
+            <strong>🌈 GRADIENT-ЭФФЕКТ:</strong>
+            <p>• Scheepjes Whirlette (60% хлопок, 40% акрил) - длинные цветовые переходы</p>
+            <p>• Caron Cakes - готовые градиентные мотки</p>
+            <p>• Lion Brand Mandala - доступная градиентная пряжа</p>
+            <p>• Red Heart Unforgettable - меланжевые переходы</p>
+            <p>• Bernat Pop! - яркие цветовые сочетания</p>
+        </div>
+        
+        <div class="modal-section">
+            <strong>🇷🇺 РОССИЙСКИЕ ПРОИЗВОДИТЕЛИ:</strong>
+            <p>• Пехорка "Ангорская теплая" (20% мохер, 80% акрил) + "Блестящая" с люрексом</p>
+            <p>• Семеновская "Су-мохер" - мягкая пушистая пряжа</p>
+            <p>• Троицкая "Шотландский твид" - натуральная шерсть с вкраплениями</p>
+            <p>• Камтекс "Аргентинская шерсть" - 100% шерсть, богатая палитра</p>
+            <p>• ВВВ "Lana" - мериносовая шерсть с шелком</p>
+        </div>
+        
+        <div class="modal-section">
+            <strong>💰 БЮДЖЕТНЫЕ ВАРИАНТЫ:</strong>
+            <p>• Alize Cotton Gold (55% хлопок, 45% акрил) в нужных цветах</p>
+            <p>• YarnArt Jeans - хлопок/акрил, устойчивые цвета</p>
+            <p>• Kartopu Baby One - мягкая детская пряжа</p>
+            <p>• Пехорка "Детская новинка" - гипоаллергенная</p>
+            <p>+ отдельно металлизированная нить "Мадeira" или "Гутерманн"</p>
+        </div>
+        
+        <div class="modal-section">
+            <strong>✨ СОЗДАНИЕ ЭФФЕКТА "СЕРЕБРЯНЫХ ВКРАПЛЕНИЙ":</strong>
+            <p>• Madeira Metallic №40 (серебро) - вязать в 2 нити с основной</p>
+            <p>• DMC Light Effects E168 - переливающаяся нить</p>
+            <p>• Anchor Artiste Metallic - высокое качество</p>
+            <p>• Kreinik Blending Filament - тонкая металлизированная нить</p>
+        </div>
+        
+        <div class="modal-section">
+            <strong>🎨 ТЕХНИКИ ОКРАШИВАНИЯ:</strong>
+            <p>• Омбре - плавный переход от светлого к темному</p>
+            <p>• Градиент - постепенная смена цветов</p>
+            <p>• Меланж - смешение нескольких оттенков</p>
+            <p>• Секционное крашение - повторяющиеся участки цветов</p>
+        </div>
+        
+        <div class="modal-section">
+            <strong>🔍 СОСТАВ ПРЯЖИ ПО СВОЙСТВАМ:</strong>
+            <p>• Мягкость: мериносовая шерсть, кашемир, альпака</p>
+            <p>• Прочность: хлопок, лен, акрил</p>
+            <p>• Теплота: шерсть, мохер, ангора</p>
+            <p>• Блеск: шелк, вискоза, металлизированные нити</p>
+            <p>• Гипоаллергенность: хлопок, бамбук, акрил</p>
+        </div>
+        
+        <div class="modal-section">
+            <strong>🛒 ГДЕ КУПИТЬ:</strong>
+            <p>• Магазины рукоделия: "Леонардо", "Рукоделие"</p>
+            <p>• Интернет-магазины: "Клубок Шоп", "Пряжа.ру", "Хобби Гипер"</p>
+            <p>• Специализированные: "Мир Вышивки", "Золотое Руно"</p>
+            <p>• Зарубежные: LoveCrafts, Wool Warehouse, Deramores</p>
+        </div>
+    </div>
+</div>
+    
+    <script>
+        function openModal() {
+            document.getElementById('yarnModal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('yarnModal').style.display = 'none';
+        }
+        
+        // Закрытие модального окна при клике вне его
+        window.onclick = function(event) {
+            const modal = document.getElementById('yarnModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Закрытие модального окна по клавише Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
